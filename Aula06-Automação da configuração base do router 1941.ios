@@ -1,0 +1,104 @@
+!Acessando o modo EXEC PRIVILIGED
+enable
+
+    !Configuração de Data e Hora do Router
+    clock set 11:20:50:02 Octuber 2026
+
+    !Acessando ao modo de Configuração Global de comandos
+    configure terminal
+
+    !Configuração do nome do Router
+    hostname Router-01
+
+    !hablitando o serviço de criptografia de senhas do Tipo-7 password do Router
+    service password-encryption
+
+    !Hablitando o serviço de marcação de Data/Hora detalhado nos logs   
+    service timestamps log datatime msec
+    service timestamps debug datetime msec
+
+    !--Habitando o tamannho do Buffer de logs na Memória RAM do Router!-
+    !--logging buffered 4096
+
+    !Desativando a resolução de nomes de dominío
+    no ip domain-lookup
+
+    !Configuração do Banner da Mensagem do Dia
+    banner motd #Acesso Apenas para Funcionarios Autorizados#
+
+    !Hablitando o coomprimento mínimo de criação de senhas do Tipo-5 ou Tipo-7
+    security passwords min-length 8
+
+    !Hablitando o uso de senha do Tipo-5 Secret para acessar ao modo EXEC Privilegiado
+    enable secret ****
+
+    !Criação dos Usuários locais ultilixando senhas do Tipo-5 ou Tipo-7e privilegios diferentes
+    username admin privilege 15 secret ****
+    username iam password ****
+    username nobody secret ****
+
+    !Configuração do nome do dominío FQDN(Fully Qualified Domain Name) do Router                                  
+    ip domain-name my.rede
+
+    !Criação da chave de criptografia e hablitar o serviço do SSH Server local
+    crypto key generate rsa general-keys modulus 1024
+
+    !Hablitando a versão 2 do serviço de SSH Server
+    ip ssh version 2
+
+    !Hablitando o tempo de inativdade para novas conexões do SSH Server
+    ip ssh time-out 60
+
+    !Hablitando o número de tentativas maximas de conexões simultâneas no Router
+    login authentication-retries 2
+
+    !Hablitando tentaivas de conexões simultâneas com falha de auteanticação no Router
+    login block-for 120 attempts 2 within 60
+
+    !Desablitando o os Serviços de Descobertas de equipamentos na rede
+    no cdp run
+    no lldp run
+
+    !Acessando a line console, porta padrão de acesso Out-of-Band (Fora da Banda)
+    line console 0
+
+            !Forçando login local ultilizando usuarios e senhas locais do switch
+            login local
+
+            !Hablitando a senha do Tipo-7 password
+            password ****
+
+            !Habllitando o tempo de inatividade de uso do console
+            exec-timeout 5 30
+            
+            !Saindo da configuração da line console
+            exit
+
+!Acessando as linhas virtuais de acesso remoto do Router
+line vty 0 4
+
+            !Forçando login local ultilizando usuarios e senhas locais do switch
+            login local
+
+            !Hablitando a senha do Tipo-7 password
+            password 123#j
+
+            !Sincronizando as mensagens de logs na tela
+            logging synchronous
+
+            !Habllitando o tempo de inatividade de uso do console
+            exec-timeout 5 30
+            
+            !Configuração do tipo de protocolo de transporte de entrada
+            transport input ssh
+
+            !Saindo da configuração da line vty
+            exit
+
+    !Saida de todos os níveis e voltando para o modo EXEC Privilegiado
+    end           
+
+!Salavando as configurações da RAM para a NVRAM
+!OBSERVAÇÃO IMPORTANTE: deixar uma linha em branco no final do script para
+!salvar automaticamente o script na hora da execução, fazendo a função de
+write
