@@ -1,0 +1,19 @@
+!Acessar o MODO EXEC Confugure Terminal
+configure terminal
+
+!Hablitar o serviço de resolução de nomes de domínio    
+ip domain-lookup
+
+!Confgurarção do servio de resolução de nomes de DNS
+ip name-server 192.168.1.1
+
+!Adicionando manualmente um host e um IP
+ip host google.com 8.8.8.8
+
+!Saindo de todos os níveis e voltando para o modo EXEC Privilegiado
+  end
+
+ !Salvando as configurações da memória RAM para a memória NVRAM
+!OBSERVAÇÃO IMPORTANTE: deixar uma linha em branco no final do script para
+!salvar automaticamente o script na hora da execução, fazendo a função de
+write
